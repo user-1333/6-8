@@ -1,6 +1,6 @@
 -- Active: 1763136769886@@127.0.0.1@3306@worldcup
 USE worldcup;
---13
+-- 13
 SELECT 
     c.name,
     COUNT(g.goal_time) AS goals
@@ -9,7 +9,7 @@ JOIN players AS p      ON g.player_id = p.id
 JOIN countries AS c    ON p.country_id = c.id
 WHERE g.pairing_id IN (39, 103)
 GROUP BY c.name;
---14
+-- 14
 SELECT 
 p.kickoff,
  c.name my, c1.name enemy,
@@ -32,7 +32,7 @@ GROUP BY
 ORDER BY
     p.kickoff,
     c.ranking;
---15
+-- 15
 SELECT 
     p.kickoff,
     c.name  AS my,
@@ -107,7 +107,7 @@ ORDER BY
 ) as a ON a.seq = t.seq
 LIMIT 16;
 
---17
+-- 17
 SELECT         -- ここで連番を使える
     t.kickoff,
     t.my,
@@ -185,7 +185,7 @@ LEFT JOIN players as pl ON pl.id = g.player_id
 LEFT JOIN countries as cpl ON cpl.id = pl.country_id
 WHERE c.name IN ('ギリシャ ','日本') AND c1.name IN ('ギリシャ','日本')
 
---18
+-- 18
 SELECT p.*,goals.id FROM goals
 LEFT JOIN pairings AS p ON p.id = goals.pairing_id;
 
