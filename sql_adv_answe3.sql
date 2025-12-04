@@ -161,7 +161,8 @@ ORDER BY
     temp_c.ranking
 ) as a ON a.seq = t.seq
 LIMIT 16;
---18
+
+-- 18
 SELECT
     DATE_ADD(kickoff, INTERVAL 12 HOUR) AS kickoff,      
     kickoff AS kickoff_jp                                
@@ -169,45 +170,3 @@ FROM pairings
 WHERE my_country_id = 1
   AND enemy_country_id = 4;
 
-
-SELECT 
-    g.id,
-    g.pairing_id,
-    p.* ,
-    c.name my,c1.name enemy,
-    pl.country_id,
-    cpl.name
-FROM goals AS g
-LEFT JOIN pairings as p ON g.pairing_id = p.id
-LEFT JOIN countries as c ON c.id = p.enemy_country_id
-LEFT JOIN countries as c1 ON c1.id = p.my_country_id
-LEFT JOIN players as pl ON pl.id = g.player_id
-LEFT JOIN countries as cpl ON cpl.id = pl.country_id
-WHERE c.name IN ('ギリシャ ','日本') AND c1.name IN ('ギリシャ','日本')
-
--- 18
-SELECT p.*,goals.id FROM goals
-LEFT JOIN pairings AS p ON p.id = goals.pairing_id;
-
-
-
-SELECT 
-    ROW_NUMBER() OVER (
-        ORDER BY temp_p.kickoff, temp_c.ranking
-    ) AS seq,  
-    COUNT(temp_cpl.name) AS my_goals
-FROM pairings as temp_p
-LEFT JOIN countries as temp_c1 ON temp_c1.id = temp_p.my_country_id
-LEFT JOIN countries as temp_c  ON temp_c.id = temp_p.enemy_country_id
-LEFT JOIN goals     as temp_g  ON temp_g.pairing_id = temp_p.id
-LEFT JOIN players   as temp_pl ON temp_pl.id = temp_g.player_id
-LEFT JOIN countries as temp_cpl ON temp_pl.country_id = temp_cpl.id
-WHERE temp_c.group_name = 'C'
-GROUP BY
-    temp_p.id,
-    temp_p.kickoff,
-    temp_c.ranking,
-    temp_c1.ranking
-ORDER BY
-    temp_p.kickoff,
-    temp_c.ranking;
